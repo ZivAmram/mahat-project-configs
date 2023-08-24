@@ -21,7 +21,10 @@ jobs:
         kubectl apply -f mongo-pvc.yaml
         kubectl apply -f tasksapp.yaml
         kubectl apply -f tasksapp-svc.yaml
-
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
     - name: Test service URLs
       run: |
         minikube service list
