@@ -1,0 +1,28 @@
+name: CI
+on:
+  - pull_request
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    name: build example and deploy to minikube
+    steps:
+    - uses: actions/checkout@v2
+    - name: Start minikube
+      uses: medyagh/setup-minikube@master
+    - name: Try the cluster !
+      run: kubectl get pods -A        
+    - name: Deploy to minikube
+      run: |
+        kubectl apply -f mongo.yaml
+        kubectl apply -f mongo-svc.yaml
+        kubectl apply -f mongo-pv.yaml
+        kubectl apply -f mongo-pvc.yaml
+        kubectl apply -f tasksapp.yaml
+        kubectl apply -f tasksapp-svc.yaml
+        kubectl port-forward svc/flask-service 8080:5000
+        kubectl port-forward svc/mongo-service 27017:27017
+
+    - name: Test service URLs
+      run: |
+        curl localhost:8080
+        
