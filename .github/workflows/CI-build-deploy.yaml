@@ -10,7 +10,7 @@ jobs:
     name: build example and deploy to minikube
     steps:
       - name: clone application from github repo.
-        uses: sudosubin/git-clone-action@v1
+        uses: sudosubin/git-clone-action@v1.0.1
         with:
           repository: 'https://github.com/ZivAmram/mahat-project-app.git'
           platform: 'github'
