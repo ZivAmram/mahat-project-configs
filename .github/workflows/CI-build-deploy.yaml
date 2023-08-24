@@ -49,3 +49,12 @@ jobs:
           curl $(minikube service tasksapp-svc --url)
           curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
           curl $(minikube service tasksapp-svc --url)/tasks
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: zivamram
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: docker push
+        run: |
+          docker tag zivamram/tasksapp-python:1.0.0 zivamram/tasksapp-python:v1.0.${{ github.run_id }}
+          docker push zivamram/tasksapp-python:v1.0.${{ github.run_id }}
