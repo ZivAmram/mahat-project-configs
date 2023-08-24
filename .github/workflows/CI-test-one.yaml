@@ -22,11 +22,12 @@ jobs:
         kubectl apply -f tasksapp.yaml
         kubectl apply -f tasksapp-svc.yaml
     - name: Take a nap
-      run: sleep 40
+      run: sleep 30
     - name: Test service URLs
       run: |
         minikube service list
         minikube service tasksapp-svc --url
         echo "------------------opening the service------------------"
         curl $(minikube service tasksapp-svc --url)
-        
+        curl -X POST -d "{\"task\": \"Test\"}" $(minikube service tasksapp-svc --url)/task
+        curl $(minikube service tasksapp-svc --url)/task
