@@ -14,8 +14,6 @@ jobs:
         with:
           repository: 'ZivAmram/mahat-project-app'
           platform: 'github'
-      - name: checkout
-        uses: actions/checkout@v3
       - name: enter the folder.
         run: ls
       - name: Set up QEMU
