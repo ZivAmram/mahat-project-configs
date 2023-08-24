@@ -21,10 +21,11 @@ jobs:
         kubectl apply -f mongo-pvc.yaml
         kubectl apply -f tasksapp.yaml
         kubectl apply -f tasksapp-svc.yaml
-        kubectl port-forward svc/flask-service 8080:5000
-        kubectl port-forward svc/mongo-service 27017:27017
 
     - name: Test service URLs
       run: |
-        curl localhost:8080
+        minikube service list
+        minikube service flask-service --url
+        echo "------------------opening the service------------------"
+        curl $(minikube service flask-service --url)
         
