@@ -25,7 +25,7 @@ jobs:
     - name: Test service URLs
       run: |
         minikube service list
-        minikube service flask-service --url
+        minikube service tasksapp-svc --url
         echo "------------------opening the service------------------"
-        curl $(minikube service flask-service --url)
+        curl $(minikube service tasksapp-svc --url)
         
