@@ -12,7 +12,7 @@ jobs:
       - name: clone application from github repo.
         uses: sudosubin/git-clone-action@v1.0.1
         with:
-          repository: 'https://github.com/ZivAmram/mahat-project-app.git'
+          repository: 'ZivAmram/mahat-project-app'
           platform: 'github'
       - name: checkout
         uses: actions/checkout@v3
