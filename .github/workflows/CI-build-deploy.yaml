@@ -1,0 +1,49 @@
+name: CI-build-and-deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    name: build example and deploy to minikube
+    steps:
+      - name: clone application from github repo.
+        uses: sudosubin/git-clone-action@v1
+        with:
+          repository: 'https://github.com/ZivAmram/mahat-project-app.git'
+          platform: 'github'
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: enter the folder.
+        run: cd mahat-project-app
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2 
+      - name: build docker image
+        run: |
+          docker build -t zivamram/tasksapp-python:1.0. ${{ github.run_id }}
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+      - name: Try the cluster !
+        run: kubectl get pods -A        
+      - name: Deploy to minikube
+        run: |
+          kubectl apply -f mongo.yaml
+          kubectl apply -f mongo-svc.yaml
+          kubectl apply -f mongo-pv.yaml
+          kubectl apply -f mongo-pvc.yaml
+          kubectl apply -f tasksapp.yaml
+          kubectl apply -f tasksapp-svc.yaml
+      - name: Take a nap
+        run: sleep 30
+      - name: Test service URLs
+        run: |
+          minikube service list
+          minikube service tasksapp-svc --url
+          echo "------------------opening the service------------------"
+          curl $(minikube service tasksapp-svc --url)
+          curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
+          curl $(minikube service tasksapp-svc --url)/tasks
