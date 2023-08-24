@@ -41,7 +41,9 @@ jobs:
         run: sleep 50
       - name: Test service URLs
         run: |
+          docker images
           minikube service list
+          kubectl get pods
           minikube service tasksapp-svc --url
           echo "------------------opening the service------------------"
           curl $(minikube service tasksapp-svc --url)
