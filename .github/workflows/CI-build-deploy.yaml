@@ -45,7 +45,7 @@ jobs:
           minikube service list
           kubectl get pods
           minikube service tasksapp-svc --url
-          echo "-----------------opening the service------------------"
+          echo "-----------------opening the service-------------------"
           curl $(minikube service tasksapp-svc --url)
           curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
           curl $(minikube service tasksapp-svc --url)/tasks
