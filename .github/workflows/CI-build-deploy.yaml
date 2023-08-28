@@ -72,7 +72,7 @@ jobs:
           chmod +x increase.sh
           ./increase.sh
           docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
-          docker push zivamram/tasksapp-python:1.0.$(cat image_tag.txt)
+          docker push zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
           rm image_tag.txt
           mv new_image_tag.txt image_tag.txt
       
