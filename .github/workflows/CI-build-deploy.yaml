@@ -9,26 +9,30 @@ jobs:
     runs-on: ubuntu-latest
     name: build example and deploy to minikube
     steps:
-      - name: clone application from github repo.
-        uses: sudosubin/git-clone-action@v1.0.1
-        with:
-          repository: 'ZivAmram/mahat-project-app'
-          platform: 'github'
-      - name: enter the folder.
-        run: ls
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2 
-      - name: build docker image
-        run: |
-          docker build -t zivamram/tasksapp-python:1.0.0 .
+      # - name: clone application from github repo.
+      #   uses: sudosubin/git-clone-action@v1.0.1
+      #   with:
+      #     repository: 'ZivAmram/mahat-project-app'
+      #     platform: 'github'
+      # - name: enter the folder.
+      #   run: ls
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v2
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v2 
+      # - name: build docker image
+      #   run: |
+      #     docker build -t zivamram/tasksapp-python:1.0.0 .
+      
       - name: checkout
         uses: actions/checkout@v3
+      
       - name: Start minikube
         uses: medyagh/setup-minikube@master
+      
       - name: Try the cluster !
         run: kubectl get pods -A        
+      
       - name: Deploy to minikube
         run: |
           kubectl apply -f mongo.yaml
@@ -37,8 +41,10 @@ jobs:
           kubectl apply -f mongo-pvc.yaml
           kubectl apply -f tasksapp.yaml
           kubectl apply -f tasksapp-svc.yaml
+      
       - name: Take a nap
         run: sleep 30
+      
       - name: Test service URLs
         run: |
           docker images
@@ -49,11 +55,13 @@ jobs:
           curl $(minikube service tasksapp-svc --url)
           curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
           curl $(minikube service tasksapp-svc --url)/tasks
+     
       - name: Docker Login
         uses: docker/login-action@v2
         with:
           username: zivamram
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      
       - name: docker push
         run: |
           echo $(cat image_tag.txt)
@@ -61,11 +69,14 @@ jobs:
           ./increase.sh
           docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
           docker push zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
+      
+      
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: current_tag
-          path: ./image_tag.txt  # or path/to/artifact
+          path: ./image_tag.txt 
+
       - name: Add and Commit
         uses: EndBug/add-and-commit@v9
         with:

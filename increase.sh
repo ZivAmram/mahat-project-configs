@@ -7,6 +7,6 @@ number=$(cat image_tag.txt)
 new_number=$((number + 1))
 
 # Write the updated number back to the file
-echo "$new_number" > new_image_tag.txt
+echo "$new_number" > image_tag.txt
 
 echo "Number increased to: $new_number"
