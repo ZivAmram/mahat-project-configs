@@ -38,7 +38,7 @@ jobs:
           kubectl apply -f tasksapp.yaml
           kubectl apply -f tasksapp-svc.yaml
       - name: Take a nap
-        run: sleep 50
+        run: sleep 30
       - name: Test service URLs
         run: |
           docker images
@@ -59,11 +59,14 @@ jobs:
           echo $(cat image_tag.txt)
           chmod +x increase.sh
           ./increase.sh
-          docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:v1.0.$(cat new_image_tag.txt)
-          docker push zivamram/tasksapp-python:v1.0.$(cat new_image_tag.txt)
+          docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
+          docker push zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: current_tag
           path: ./image_tag.txt  # or path/to/artifact
-          
+      - name: Add and Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
