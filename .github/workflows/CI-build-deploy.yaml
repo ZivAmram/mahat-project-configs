@@ -9,25 +9,26 @@ jobs:
     runs-on: ubuntu-latest
     name: build example and deploy to minikube
     steps:
+      
+      # - name: clone application from github repo.
+      #   uses: sudosubin/git-clone-action@v1.0.1
+      #   with:
+      #     repository: 'ZivAmram/mahat-project-app'
+      #     platform: 'github'  
+      # - name: enter the folder.
+      #   run: ls
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v2
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v2 
+      # - name: build docker image
+      #   run: |
+      #     docker build -t zivamram/tasksapp-python:1.0.$(cat image_tag.txt) .
+      - name: docker pull
+        run: docker pull zivamram/tasksapp-python:1.0.$(cat image_tag.txt)    
       - name: checkout
         uses: actions/checkout@v3
-        
-      - name: clone application from github repo.
-        uses: sudosubin/git-clone-action@v1.0.1
-        with:
-          repository: 'ZivAmram/mahat-project-app'
-          platform: 'github'
-      - name: enter the folder.
-        run: ls
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2 
-      - name: build docker image
-        run: |
-          docker build -t zivamram/tasksapp-python:1.0.$(cat image_tag.txt) .
-          
-      
+
       - name: Start minikube
         uses: medyagh/setup-minikube@master
       
