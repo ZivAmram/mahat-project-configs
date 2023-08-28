@@ -57,6 +57,8 @@ jobs:
       - name: docker push
         run: |
           echo $(cat image_tag.txt)
+          chmod +x increase.sh
+          ./increase.sh
           docker tag zivamram/tasksapp-python:1.0.0 zivamram/tasksapp-python:v1.0.${{ github.run_id }}
           docker push zivamram/tasksapp-python:v1.0.${{ github.run_id }}
           
