@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tasksapp
-          image: zivamram/tasksapp-python:latest
+          image: zivamram/tasksapp-python:1.0.0
           ports:
             - containerPort: 5000
           imagePullPolicy: Always

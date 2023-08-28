@@ -68,7 +68,9 @@ jobs:
           chmod +x increase.sh
           ./increase.sh
           docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
-          docker push zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
+          docker push zivamram/tasksapp-python:1.0.$(cat image_tag.txt)
+          rm image_tag.txt
+          mv new_image_tag.txt image_tag.txt
       
       
       - name: Upload artifact
@@ -77,7 +79,13 @@ jobs:
           name: current_tag
           path: ./image_tag.txt 
 
-      - name: Add and Commit
-        uses: EndBug/add-and-commit@v9
+      - name: push
+        uses: github-actions-x/commit@v2.9
         with:
-          default_author: github_actions
+          github-token: ${{ secrets.GH_TOKEN }}
+          push-branch: 'main'
+          commit-message: 'publish'
+          force-add: 'true'
+          files: image_tag.txt
+          name: Ziv
+          email: my.github@email.com 
