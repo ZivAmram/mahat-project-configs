@@ -29,17 +29,14 @@ jobs:
         uses: medyagh/setup-minikube@master
       - name: Try the cluster !
         run: kubectl get pods -A        
-      - name: 'Deploy'
-        uses: 'deliverybot/helm@v1'
-        with:
-          release: 'mymongo'
-          namespace: 'default'
-          chart: 'mychart'
-          value-files: >-
-            [
-            "values.yaml", 
-            "values.production.yaml"
-            ]
+      - name: 'Deploy helm chart'
+        run: |
+          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+          sudo apt-get install apt-transport-https --yes
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+          sudo apt-get update
+          sudo apt-get install helm
+          helm install mongo mychart
       - name: Deploy to minikube
         run: |
           kubectl apply -f tasksapp.yaml
