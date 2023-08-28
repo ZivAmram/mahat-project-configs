@@ -1,0 +1,13 @@
+kubernetesClusterDomain: cluster.local
+mongo:
+  mongo:
+    image:
+      repository: mongo
+      tag: latest
+  ports:
+  - port: 27017
+    targetPort: 27017
+  type: ClusterIP
+pvc:
+  pvc:
+    storageRequest: 256Mi
