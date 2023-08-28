@@ -24,11 +24,13 @@ jobs:
       # - name: build docker image
       #   run: |
       #     docker build -t zivamram/tasksapp-python:1.0.$(cat image_tag.txt) .
-      - name: docker pull
-        run: docker pull zivamram/tasksapp-python:1.0.$(cat image_tag.txt)    
+      
       - name: checkout
         uses: actions/checkout@v3
-
+      
+      - name: docker pull
+        run: docker pull zivamram/tasksapp-python:1.0.$(cat image_tag.txt)      
+      
       - name: Start minikube
         uses: medyagh/setup-minikube@master
       
