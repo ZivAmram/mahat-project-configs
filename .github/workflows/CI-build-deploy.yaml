@@ -59,6 +59,11 @@ jobs:
           echo $(cat image_tag.txt)
           chmod +x increase.sh
           ./increase.sh
-          docker tag zivamram/tasksapp-python:1.0.0 zivamram/tasksapp-python:v1.0.${{ github.run_id }}
-          docker push zivamram/tasksapp-python:v1.0.${{ github.run_id }}
+          docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:v1.0.$(cat new_image_tag.txt)
+          docker push zivamram/tasksapp-python:v1.0.$(cat new_image_tag.txt)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: current_tag
+          path: ./image_tag.txt  # or path/to/artifact
           
