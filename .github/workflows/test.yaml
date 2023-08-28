@@ -1,4 +1,4 @@
-name: CI-build-and-deploy
+name: Test
 on:
   push:
     branches:
@@ -29,9 +29,19 @@ jobs:
         uses: medyagh/setup-minikube@master
       - name: Try the cluster !
         run: kubectl get pods -A        
+      - name: 'Deploy'
+        uses: 'deliverybot/helm@v1'
+        with:
+          release: 'mymongo'
+          namespace: 'default'
+          chart: 'mychart'
+          value-files: >-
+            [
+            "values.yaml", 
+            "values.production.yaml"
+            ]
       - name: Deploy to minikube
         run: |
-          helm install mongo mychart
           kubectl apply -f tasksapp.yaml
           kubectl apply -f tasksapp-svc.yaml
       - name: Take a nap
