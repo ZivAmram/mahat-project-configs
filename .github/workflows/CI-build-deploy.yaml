@@ -56,7 +56,18 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: docker push
         run: |
+<<<<<<< HEAD
           echo $(cat image_tag.txt)
           docker tag zivamram/tasksapp-python:1.0.0 zivamram/tasksapp-python:v1.0.${{ github.run_id }}
           docker push zivamram/tasksapp-python:v1.0.${{ github.run_id }}
           
+=======
+          IMAGE_TAG_WITH_RUN_ID=v1.0.${{ github.run_id }}
+          docker tag zivamram/tasksapp-python:1.0.0 zivamram/tasksapp-python:$IMAGE_TAG_WITH_RUN_ID
+          docker tag zivamram/tasksapp-python:1.0.0 zivamram/tasksapp-python:$IMAGE_TAG_LATEST
+          docker push zivamram/tasksapp-python:$IMAGE_TAG_WITH_RUN_ID
+          
+        env:
+          IMAGE_TAG_WITH_RUN_ID: v1.0.${{ github.run_id }}
+      
+>>>>>>> e1ca7bb5c26546a6ae2680192fb3673331d88b5b
