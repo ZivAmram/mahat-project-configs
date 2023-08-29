@@ -1,4 +1,4 @@
-name: CI-build-and-deploy
+name: CI-testing
 on:
   push:
     branches:
@@ -68,10 +68,9 @@ jobs:
           echo $(cat image_tag.txt)
           chmod +x increase.sh
           ./increase.sh
-          docker tag zivamram/tasksapp-python:latest zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
-          docker tag zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt) zivamram/tasksapp-python:latest
-          docker push zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
           docker push zivamram/tasksapp-python:latest
+          docker tag zivamram/tasksapp-python:latest zivamram/tasksapp-python:0.0.$(cat new_image_tag.txt)
+          docker push zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
           rm image_tag.txt
           mv new_image_tag.txt image_tag.txt
       
