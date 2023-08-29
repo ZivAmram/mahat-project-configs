@@ -44,7 +44,7 @@ jobs:
           kubectl apply -f tasksapp-svc.yaml
       
       - name: Take a nap
-        run: sleep 30
+        run: sleep 50
       
       - name: Test service URLs
         run: |
