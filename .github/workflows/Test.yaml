@@ -1,0 +1,93 @@
+name: CI-build-and-deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    name: build example and deploy to minikube
+    steps:
+      
+      - name: clone application from github repo.
+        uses: sudosubin/git-clone-action@v1.0.1
+        with:
+          repository: 'ZivAmram/mahat-project-app'
+          platform: 'github'  
+      - name: enter the folder.
+        run: ls
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2 
+      - name: build docker image
+        run: |
+          docker build -t zivamram/tasksapp-python:latest .
+      
+      - name: checkout
+        uses: actions/checkout@v3
+      
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+      
+      - name: Try the cluster !
+        run: kubectl get pods -A        
+      
+      - name: Deploy to minikube
+        run: |
+          kubectl apply -f mongo.yaml
+          kubectl apply -f mongo-svc.yaml
+          kubectl apply -f mongo-pv.yaml
+          kubectl apply -f mongo-pvc.yaml
+          kubectl apply -f tasksapp.yaml
+          kubectl apply -f tasksapp-svc.yaml
+      
+      - name: Take a nap
+        run: sleep 50
+      
+      - name: Test service URLs
+        run: |
+          docker images
+          minikube service list
+          kubectl get pods
+          minikube service tasksapp-svc --url
+          echo "----------------opening the service-------------------"
+          curl $(minikube service tasksapp-svc --url)
+          curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
+          curl $(minikube service tasksapp-svc --url)/tasks
+     
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: zivamram
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      
+      - name: docker push
+        run: |
+          echo $(cat image_tag.txt)
+          chmod +x increase.sh
+          ./increase.sh
+          docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
+          docker tag zivamram/tasksapp-python:1.0.$(cat image_tag.txt) zivamram/tasksapp-python:latest
+          docker push zivamram/tasksapp-python:1.0.$(cat new_image_tag.txt)
+          rm image_tag.txt
+          mv new_image_tag.txt image_tag.txt
+      
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: current_tag
+          path: ./image_tag.txt 
+
+      - name: push to github
+        uses: github-actions-x/commit@v2.9
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          push-branch: 'main'
+          commit-message: 'publish'
+          force-add: 'true'
+          files: image_tag.txt
+          name: Ziv
+          email: my.github@email.com 
