@@ -3,6 +3,7 @@ kind: PersistentVolume
 metadata:
   name: mongo-pv
 spec:
+  storageClassName: gp2
   capacity:
     storage: 256Mi
   accessModes:
