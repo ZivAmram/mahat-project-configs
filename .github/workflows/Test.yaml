@@ -41,6 +41,7 @@ jobs:
       
       - name: checkout
         uses: actions/checkout@v3
+
       - name: Update Deployment Manifest
         run: |
          sed -i "s|image:  zivamram/tasksapp-python:0.0.*|image:  zivamram/tasksapp-python:0.0.${{ github.run_id }}|" ../taskapp.yaml
@@ -75,23 +76,23 @@ jobs:
      
 
       
-      - name: docker push
-        run: |
-          echo $(cat image_tag.txt)
-          chmod +x increase.sh
-          ./increase.sh
-          docker push zivamram/tasksapp-python:latest
-          docker tag zivamram/tasksapp-python:latest zivamram/tasksapp-python:0.0.$(cat new_image_tag.txt)
-          docker push zivamram/tasksapp-python:0.0.$(cat new_image_tag.txt)
-          rm image_tag.txt
-          mv new_image_tag.txt image_tag.txt
+      # - name: docker push
+      #   run: |
+      #     echo $(cat image_tag.txt)
+      #     chmod +x increase.sh
+      #     ./increase.sh
+      #     docker push zivamram/tasksapp-python:latest
+      #     docker tag zivamram/tasksapp-python:latest zivamram/tasksapp-python:0.0.$(cat new_image_tag.txt)
+      #     docker push zivamram/tasksapp-python:0.0.$(cat new_image_tag.txt)
+      #     rm image_tag.txt
+      #     mv new_image_tag.txt image_tag.txt
       
       
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: current_tag
-          path: ./image_tag.txt 
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: current_tag
+      #     path: ./image_tag.txt 
 
       - name: push to github
         uses: github-actions-x/commit@v2.9
