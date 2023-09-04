@@ -44,8 +44,7 @@ jobs:
 
       - name: Update Deployment Manifest
         run: |
-         ls 
-         sed -i "s|image:  zivamram/tasksapp-python:0.0.*|image:  zivamram/tasksapp-python:0.0.${{ github.run_id }}|" ./taskapp.yaml
+         sed -i "s|image:  zivamram/tasksapp-python:0.0.*|image:  zivamram/tasksapp-python:0.0.${{ github.run_id }}|" ./tasksapp.yaml
       - name: Start minikube
         uses: medyagh/setup-minikube@master
       
