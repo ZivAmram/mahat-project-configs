@@ -72,15 +72,15 @@ jobs:
         run: |
           kubectl get pods
 
-      # - name: Test service URLs
-      #   run: |
-      #     docker images
-      #     minikube service list
-      #     kubectl get pods
-      #     minikube service tasksapp-svc --url
-      #     echo "---------------opening the service----------------"
-      #     curl $(minikube service tasksapp-svc --url)
-      #     curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
+      - name: Test service URLs
+        run: |
+          docker images
+          minikube service list
+          kubectl get pods
+          minikube service tasksapp-svc --url
+          echo "---------------opening the service----------------"
+          curl $(minikube service tasksapp-svc --url)
+          curl -X POST -d "name=John&email=john@example.com&password=secret" $(minikube service tasksapp-svc --url)/user/signup
       #     curl $(minikube service tasksapp-svc --url)/tasks
      
 
