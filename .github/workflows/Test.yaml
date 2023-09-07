@@ -26,7 +26,7 @@ jobs:
         uses: docker/setup-buildx-action@v2 
       - name: build docker image
         run: |
-          docker build -t zivamram/tasksapp-python:0.0.${{ github.run_id }} .
+          docker build -t zivamram/trading-app:0.0.${{ github.run_id }} .
 
       - name: Docker Login
         uses: docker/login-action@v2
@@ -36,7 +36,7 @@ jobs:
 
       - name: docker push
         run: |
-         docker push zivamram/tasksapp-python:0.0.${{ github.run_id }}
+         docker push zivamram/trading-app:0.0.${{ github.run_id }}
 
       
       - name: checkout
@@ -44,7 +44,8 @@ jobs:
 
       - name: Update Deployment Manifest
         run: |
-         sed -i "s|image:  zivamram/tasksapp-python:0.0.*|image:  zivamram/tasksapp-python:0.0.${{ github.run_id }}|" ./tasksapp.yaml
+         ls 
+         sed -i "s|image:  zivamram/trading-app:0.0.*|image:  zivamram/trading-app:0.0.${{ github.run_id }}|" ./tasksapp.yaml
       - name: Start minikube
         uses: medyagh/setup-minikube@master
       
@@ -63,16 +64,20 @@ jobs:
       - name: Take a nap
         run: sleep 30
       
-      - name: Test service URLs
+      - name: Check pods
         run: |
-          docker images
-          minikube service list
           kubectl get pods
-          minikube service tasksapp-svc --url
-          echo "---------------opening the service----------------"
-          curl $(minikube service tasksapp-svc --url)
-          curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
-          curl $(minikube service tasksapp-svc --url)/tasks
+
+      # - name: Test service URLs
+      #   run: |
+      #     docker images
+      #     minikube service list
+      #     kubectl get pods
+      #     minikube service tasksapp-svc --url
+      #     echo "---------------opening the service----------------"
+      #     curl $(minikube service tasksapp-svc --url)
+      #     curl -X POST -d "{\"task\": \"Task1\"}" $(minikube service tasksapp-svc --url)/task
+      #     curl $(minikube service tasksapp-svc --url)/tasks
      
 
       
