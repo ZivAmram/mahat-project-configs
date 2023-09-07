@@ -46,24 +46,28 @@ jobs:
         run: |
          ls 
          sed -i "s|image:  zivamram/trading-app:0.0.*|image:  zivamram/trading-app:0.0.${{ github.run_id }}|" ./tasksapp.yaml
-      # - name: Start minikube
-      #   uses: medyagh/setup-minikube@master
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
       
-      # - name: Try the cluster !
-      #   run: kubectl get pods -A        
+      - name: Try the cluster !
+        run: kubectl get pods -A        
       
-      # - name: Deploy to minikube
-      #   run: |
-      #     kubectl apply -f mongo.yaml
-      #     kubectl apply -f mongo-svc.yaml
-      #     kubectl apply -f mongo-pv.yaml
-      #     kubectl apply -f mongo-pvc.yaml
-      #     kubectl apply -f tasksapp.yaml
-      #     kubectl apply -f tasksapp-svc.yaml
+      - name: Deploy to minikube
+        run: |
+          kubectl apply -f mongo.yaml
+          kubectl apply -f mongo-svc.yaml
+          kubectl apply -f mongo-pv.yaml
+          kubectl apply -f mongo-pvc.yaml
+          kubectl apply -f tasksapp.yaml
+          kubectl apply -f tasksapp-svc.yaml
       
-      # - name: Take a nap
-      #   run: sleep 30
+      - name: Take a nap
+        run: sleep 30
       
+      - name: Check pods
+        run: |
+          kubectl get pods
+
       # - name: Test service URLs
       #   run: |
       #     docker images
