@@ -46,6 +46,10 @@ jobs:
         run: |
          ls 
          sed -i "s|image:  zivamram/trading-app:0.0.*|image:  zivamram/trading-app:0.0.${{ github.run_id }}|" ./tasksapp.yaml
+
+      - name: Ensure the Tasksapp.yaml
+        run: |
+          cat tasksapp.yaml
       - name: Start minikube
         uses: medyagh/setup-minikube@master
       
