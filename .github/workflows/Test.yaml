@@ -45,11 +45,10 @@ jobs:
       - name: Update Deployment Manifest
         run: |
          ls 
-         sed -i "s|image:  zivamram/trading-app:* |image:  zivamram/trading-app:0.0.${{ github.run_id }}|" tasksapp.yaml
+         sed -i "s|image: zivamram/trading-app:* |image: zivamram/trading-app:0.0.${{ github.run_id }}|" ./tasksapp.yaml
 
       - name: Ensure the Tasksapp.yaml
         run: |
-          sed -i 's|image:  zivamram/trading-app:*|image:  zivamram/trading-app:0.0.'"${{ github.run_id }}"'|' ./tasksapp.yaml
           cat tasksapp.yaml
       - name: Start minikube
         uses: medyagh/setup-minikube@master
