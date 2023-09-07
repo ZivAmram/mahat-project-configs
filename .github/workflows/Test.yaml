@@ -49,6 +49,7 @@ jobs:
 
       - name: Ensure the Tasksapp.yaml
         run: |
+          sed -i "s|image:  zivamram/trading-app:* |image:  zivamram/trading-app:0.0.6107891113|" tasksapp.yaml
           cat tasksapp.yaml
       - name: Start minikube
         uses: medyagh/setup-minikube@master
