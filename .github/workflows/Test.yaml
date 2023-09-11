@@ -72,7 +72,7 @@ jobs:
         run: |
           kubectl get pods
 
-      - name: Test service URLs
+      - name: Test Login
         run: |
           docker images
           minikube service list
