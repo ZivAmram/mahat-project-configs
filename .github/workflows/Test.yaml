@@ -45,7 +45,7 @@ jobs:
       - name: Update Deployment Manifest
         run: |
          ls 
-         sed -i "s|image: zivamram/trading-app:.*|image: zivamram/trading-app:0.0.${{ github.run_id }}|" ./tasksapp.yaml
+         sed -i "s|image: zivamram/trading-app:.*|image: zivamram/trading-app:0.0.${{ github.run_id }}|" ./trading-app.yaml
 
       - name: Ensure the Tasksapp.yaml
         run: |
@@ -62,8 +62,8 @@ jobs:
           kubectl apply -f mongo-svc.yaml
           kubectl apply -f mongo-pv.yaml
           kubectl apply -f mongo-pvc.yaml
-          kubectl apply -f tasksapp.yaml
-          kubectl apply -f tasksapp-svc.yaml
+          kubectl apply -f trading-app.yaml
+          kubectl apply -f trading-app-svc.yaml
       
       - name: Take a nap
         run: sleep 30
@@ -72,14 +72,19 @@ jobs:
         run: |
           kubectl get pods
 
-      - name: Test Login
+      - name: Test Login To App
         run: |
           docker images
           minikube service list
           kubectl get pods
           minikube service tasksapp-svc --url
           echo "---------------opening the service----------------"
-          curl $(minikube service tasksapp-svc --url)
+          ping -c 1 $(minikube service tasksapp-svc --url)
+          if ping -c 1 $(minikube service tasksapp-svc --url); then
+            echo "success"
+          else
+            echo "ping failed"
+          fi
           curl -X POST -d "name=TEST&email=test@gmail.com&password=test" $(minikube service tasksapp-svc --url)/user/signup
           curl -X POST -d "email=test@gmail.com&password=test" $(minikube service tasksapp-svc --url)/user/login
       #     curl $(minikube service tasksapp-svc --url)/tasks
@@ -111,6 +116,7 @@ jobs:
           push-branch: 'main'
           commit-message: 'publish'
           force-add: 'true'
-          files: tasksapp.yaml
+          files: trading-app.yaml
           name: Ziv
           email: my.github@email.com 
+  
