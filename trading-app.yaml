@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: tasksapp
+        app: trading-app
     spec:
       containers:
         - name: tasksapp
