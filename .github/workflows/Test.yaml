@@ -80,9 +80,8 @@ jobs:
           minikube service trading-app-svc --url
           service_url=$(minikube service trading-app-svc --url)
           echo "---------------opening the service----------------"
-          ip_address=$(echo $service_url | sed 's#http://\([^/]*\).*#\1#')
           curl $(minikube service trading-app-svc --url)/
-          ping -c 1 $(ip_address)
+          ping -c 1 $(service_url)
           curl -X POST -d "name=TEST&email=test@gmail.com&password=test" $(minikube service trading-app-svc --url)/user/signup
           curl -X POST -d "email=test@gmail.com&password=test" $(minikube service trading-app-svc --url)/user/login
       #     curl $(minikube service tasksapp-svc --url)/tasks
