@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tasksapp
-          image: zivamram/trading-app:0.0.6109294605
+          image: zivamram/trading-app:0.0.6144965106
           ports:
             - containerPort: 5000
           imagePullPolicy: Always
