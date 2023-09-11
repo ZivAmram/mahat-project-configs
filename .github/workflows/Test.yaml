@@ -78,14 +78,8 @@ jobs:
           minikube service list
           kubectl get pods
           minikube service trading-app-svc --url
-          service_url=$(minikube service trading-app-svc --url)
           echo "---------------opening the service----------------"
           curl $(minikube service trading-app-svc --url)/
-          if $?; then
-            echo "success"
-          else
-            echo "fail"
-          fi
           curl -X POST -d "name=TEST&email=test@gmail.com&password=test" $(minikube service trading-app-svc --url)/user/signup
           curl -X POST -d "email=test@gmail.com&password=test" $(minikube service trading-app-svc --url)/user/login
       #     curl $(minikube service tasksapp-svc --url)/tasks
