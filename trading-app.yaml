@@ -15,7 +15,7 @@ spec:
         app: trading-app
     spec:
       containers:
-        - name: tasksapp
+        - name: trading-app
           image: zivamram/trading-app:0.0.6159022873
           ports:
             - containerPort: 5000
