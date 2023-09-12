@@ -5,7 +5,7 @@ metadata:
   labels:
     app: trading-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: trading-app
