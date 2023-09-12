@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tasksapp
+  name: trading-app
   labels:
-    app: tasksapp
+    app: trading-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tasksapp
+      app: trading-app
   template:
     metadata:
       labels:
-        app: tasksapp
+        app: trading-app
     spec:
       containers:
         - name: tasksapp
-          image: zivamram/trading-app:0.0.0
+          image: zivamram/trading-app:0.0.6148052455
           ports:
             - containerPort: 5000
           imagePullPolicy: Always
