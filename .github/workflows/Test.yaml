@@ -82,30 +82,6 @@ jobs:
           curl $(minikube service trading-app-svc --url)/
           curl -X POST -d "name=TEST&email=test@gmail.com&password=test" $(minikube service trading-app-svc --url)/user/signup
           curl -X POST -d "email=test@gmail.com&password=test" $(minikube service trading-app-svc --url)/user/login
-<<<<<<< HEAD
-      #     curl $(minikube service tasksapp-svc --url)/tasks
- 
-      # - name: docker push
-      #   run: |
-      #     echo $(cat image_tag.txt)
-      #     chmod +x increase.sh
-      #     ./increase.sh
-      #     docker push zivamram/tasksapp-python:latest
-      #     docker tag zivamram/tasksapp-python:latest zivamram/tasksapp-python:0.0.$(cat new_image_tag.txt)
-      #     docker push zivamram/tasksapp-python:0.0.$(cat new_image_tag.txt)
-      #     rm image_tag.txt
-      #     mv new_image_tag.txt image_tag.txt
-      
-      
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: current_tag
-      #     path: ./image_tag.txt 
-=======
-
-          
->>>>>>> b18b71698c8d0d0508d0ddb1c954c98b86b5c9b8
 
       - name: push to github
         uses: github-actions-x/commit@v2.9
