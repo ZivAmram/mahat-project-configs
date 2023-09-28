@@ -19,9 +19,9 @@ jobs:
           host: smtp.google.com
             # Optional port (defaults to 465)
           port: 465
-          account: 'GitHub'
+          account: 'Ziv Chay Amram'
           password: ${{secrets.MAIL_PASSWORD}}
-          sender: GitHub
+          sender: Ziv Chay Amram
           from: ${{secrets.MAIL_ADDRESS}}
           to: ziv.chay.amram@gmail.com
           subject: mail title.
