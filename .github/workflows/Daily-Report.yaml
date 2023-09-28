@@ -1,4 +1,4 @@
-name: CI-testing
+name: Daily Report
 on:
   schedule:
     - cron: '0 8,20 * * *'
