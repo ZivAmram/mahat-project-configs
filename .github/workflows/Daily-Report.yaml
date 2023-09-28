@@ -14,7 +14,7 @@ jobs:
       steps:
       - uses: actions/checkout@v2
       - name: Send email
-        uses: devellany/send-mailer@v1.0.2
+        uses: devellany/send-mail@v1.0.2
         with:
           host: smtp.google.com
             # Optional port (defaults to 465)
