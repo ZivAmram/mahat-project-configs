@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: trading-app
-          image: zivamram/trading-app:0.0.6901462061
+          image: zivamram/trading-app:0.0.6908612229
           ports:
             - containerPort: 5000
           imagePullPolicy: Always
