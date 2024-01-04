@@ -69,7 +69,7 @@ jobs:
           kubectl apply -f trading-app-svc.yaml
       
       - name: Take a nap
-        run: sleep 30
+        run: sleep 30 # fix this
       
       - name: Check pods
         run: |
