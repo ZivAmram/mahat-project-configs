@@ -4,7 +4,7 @@ on:
   #   - cron: '0 8,20 * * *'
   push:
     branches:
-      - main
+      - dev
   repository_dispatch:
     types:
       - trigger-ci-testing
