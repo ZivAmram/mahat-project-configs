@@ -4,7 +4,10 @@ on:
   #   - cron: '0 8,20 * * *'
   push:
     branches:
-      - dev
+      - main
+  pull_request:
+    branches:
+      - main
   repository_dispatch:
     types:
       - trigger-ci-testing
@@ -90,7 +93,7 @@ jobs:
         uses: github-actions-x/commit@v2.9
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          push-branch: 'dev'
+          push-branch: 'main'
           commit-message: 'publish'
           force-add: 'true'
           files: trading-app.yaml
