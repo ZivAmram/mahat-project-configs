@@ -71,8 +71,18 @@ jobs:
           kubectl apply -f trading-app.yaml
           kubectl apply -f trading-app-svc.yaml
       
-      - name: Take a nap
-        run: sleep 30
+      - name: Wait for Pods to be running
+        run: |
+          SECONDS=0
+          TIMEOUT=600  # Set your desired timeout in seconds here
+          while [[ $(kubectl get pods -n project -l app=project -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do 
+            if [[ $SECONDS -gt $TIMEOUT ]]; then
+              echo "Timed out waiting for pods to be ready"
+              exit 1
+            fi
+            kubectl get pods -n project
+            sleep 1
+          done
       
       - name: Check pods
         run: |
